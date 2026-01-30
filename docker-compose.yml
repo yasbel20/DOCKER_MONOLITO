@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  # Servicio de Base de Datos MySQL
+  mysql:
+    image: mysql:8.0
+    container_name: clientes-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: clientes_db
+      MYSQL_USER: usuario
+      MYSQL_PASSWORD: usuario123
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./init_db.sql:/docker-entrypoint-initdb.d/init_db.sql
+      - mysql_data:/var/lib/mysql
+    networks:
+      - clientes-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 10s
+      retries: 5
+    restart: unless-stopped
+
+  # Servicio de Aplicación FastAPI
+  app:
+    build: .
+    container_name: clientes-app
+    environment:
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: usuario
+      DB_PASSWORD: usuario123
+      DB_NAME: clientes_db
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+      - /app/__pycache__
+    networks:
+      - clientes-network
+    depends_on:
+      mysql:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
+
+networks:
+  clientes-network:
+    driver: bridge
