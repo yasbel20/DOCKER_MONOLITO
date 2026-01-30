@@ -10,6 +10,7 @@ services:
       MYSQL_DATABASE: clientes_db
       MYSQL_USER: usuario
       MYSQL_PASSWORD: usuario123
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     ports:
       - "3307:3306"
     volumes:

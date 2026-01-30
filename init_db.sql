@@ -8,7 +8,7 @@
 -- 1️⃣ Crear la base de datos si no existe
 CREATE DATABASE IF NOT EXISTS clientes_db
 CHARACTER SET utf8mb4
-COLLATE utf8mb4_general_ci;
+COLLATE utf8mb4_unicode_ci;
 
 -- 2️⃣ Seleccionar la base de datos
 USE clientes_db;
@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS clientes (
     email VARCHAR(150) NOT NULL UNIQUE,
     telefono VARCHAR(50),
     direccion VARCHAR(255)
-);
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- 4️⃣ Insertar datos de ejemplo SOLO si no existen
 INSERT INTO clientes (nombre, apellido, email, telefono, direccion)
