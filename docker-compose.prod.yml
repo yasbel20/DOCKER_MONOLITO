@@ -15,7 +15,7 @@ services:
       DB_PORT: 3306
       
       # Configuración para proxy inverso
-      VIRTUAL_HOST: clientes.docker.sulbaranjc.com
+      VIRTUAL_HOST: clientes-monolito-docker.docker.sulbaranjc.com
       VIRTUAL_PORT: "8000"
       
       # Configuración de aplicación
@@ -31,6 +31,7 @@ services:
 
     networks:
       - clientes-monolito-docker-network
+      - nginx-proxy
 
     deploy:
       resources:
@@ -91,3 +92,5 @@ volumes:
 networks:
   clientes-monolito-docker-network:
     driver: bridge
+  nginx-proxy:
+    external: true
